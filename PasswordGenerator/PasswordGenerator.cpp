@@ -3,12 +3,14 @@
 #include <ctime>
 #include <vector>
 #include <algorithm>
+#include <random>
 using namespace std;
 
 char lowercase[26] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 char upper[26] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 char numbers[10] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 char symbols[25] = { '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', '{', ']', '}', '|', ';', ':', '<', '>', '/', '?' };
+
 
 int main() {
     srand(time(0));
@@ -19,8 +21,9 @@ int main() {
     cout << "How many characters will your password be?" << endl;
     cin >> length;
 
+    if(length >= 7) {
     // Add one lowercase, one uppercase, one number, and one symbol to the passwordChars vector, ensuring the password contains at least one of each type
-    //push_back() adds the value to the end of the specified vector
+    // push_back() adds the value to the end of the specified vector
     passwordChars.push_back(lowercase[rand() % 26]);
     passwordChars.push_back(upper[rand() % 26]);
     passwordChars.push_back(numbers[rand() % 10]);
@@ -46,7 +49,9 @@ int main() {
     }
 
     // Shuffle the passwordChars vector to randomize the order of required characters
-    random_shuffle(passwordChars.begin(), passwordChars.end());
+    random_device rd;
+    mt19937 g(rd()); 
+    shuffle(passwordChars.begin(), passwordChars.end(), g);
 
     // Output the password
     for (char c : passwordChars) {
@@ -55,5 +60,10 @@ int main() {
 
     cout << endl;
 
+    }
+    else {
+        cout << "Password must be 7 or more characters long" << endl;;
+        main();
+    }
     return 0;
 }
